@@ -6,7 +6,7 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:36:10 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/10/24 22:32:03 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:59:33 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 typedef struct is_printflags
 {
 	char	mode;
-	char	flag_#;
+	char	flag_hash;
 	char	flag_space;
 	char	flag_+;
-}t_printflags
+}t_printflags;
 
 int	ft_printf(const char *str, ...);
 #endif

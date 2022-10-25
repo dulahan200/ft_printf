@@ -22,8 +22,8 @@ test:		${OBJS} ${NAME}
 
 ${NAME}:	${OBJS} $(HEADER)
 			make -C libft
-#			cp libft/libft.a $(NAME)
-#			ar rcs ${NAME} ${OBJS}
+			cp libft/libft.a $(NAME)
+			ar rcs ${NAME} ${OBJS}
 
 bonus:		${OBJS} ${OBJSBONUS} $(HEADER)
 			ar rcs ${NAME} ${OBJS} ${OBJSBONUS}

@@ -6,7 +6,7 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 17:29:18 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/10/24 22:31:55 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/10/25 20:07:49 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 static void	ft_ini_printflags(* struct printflags flags)
 {
 	flags->mode = 't';
-	flags->flag_# = 0;
+	flags->flag_hash = 0;
 	flags->flag_space = 0;
 	flags->flag_+ = 0;
 }
 
-static void ft_printchar(char c, t_printflags flags, char* s)
+static int ft_printchar(char c, t_printflags flags, va_list ap)
 {
 	if (c == 'c' || c =='%')
-		write(1, &s[0] ,1);
+		return (write(1, va_arg(ap, char) ,1));
 	if (c == 's')
-		ft_putstr_fd(s, 1);
+		return (ft_putstr_fd(va_arg(ap, char*), 1));
 	if (c == 'p')
-		ft_putnbr_fd(atoi(&s), 1);
-	if (c == 'd')    //decimal number, have to think
-	if (c == 'i')
-		ft_putnbr_fd(atoi(s), 1);
-	if (c == 'u')   //unsigned decimal
+		return (ft_putnbr_fd(va_arg(ap, void*), "0123456789", 1); ///tengo que testear esto para entenderlo bien
+	if (c == 'i'|| c == 'd')
+		return (ft_putnbr_fd(va_arg(ap, int), "0123456789", 1);
+	if (c == 'u')   
+		return (ft_putnbr_fd((va_arg(ap, unsigned int), "0123456789", 1));
 	if (c == 'x') //hexadecimal lowercase
-		{
-			atoi(x);
+		return (ft_putnbr_fd((va_arg(ap, unsigned int), "0123456789abcdef", 1));
 	if (c == 'X') //hexadecimal uppercase
+		return (ft_putnbr_fd((va_arg(ap, unsigned int), "0123456789ABCDEF", 1));
 }
 
 static void	ft_print_analysis(char *s, t_printflags, va_list ap)
@@ -56,9 +56,9 @@ static void	ft_print_analysis(char *s, t_printflags, va_list ap)
 		else
 		{
 			if (ft_strchr("cspdiuxX", s[i])
-				ft_printchar(s[i], flags, va_arg(ap, char*));
+				ft_printchar(s[i], flags, ap);
 			else if(s[i] == '#')
-				flags.flag_# = 1;
+				flags.flag_hash = 1;
 			else if(s[i] == ' ')
 				flags.flag_space= 1;
 			else if(s[i] == '+')
@@ -70,7 +70,6 @@ static void	ft_print_analysis(char *s, t_printflags, va_list ap)
 int	ft_printf(const char *str, ...)		//el prototipo del enunciado no dice nada de str, pero me han dicho que lo ponga asi
 {
 	va_list			ap;
-	char			*flags;
 	t_printflags	flags;
 
 	ft_ini_printflags(flags);
