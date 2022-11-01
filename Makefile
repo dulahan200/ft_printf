@@ -1,11 +1,13 @@
 SRCS = ft_printf.c 
-SRCSBONUS = 
 
 OBJS = ${SRCS:.c=.o}
 OBJSBONUS = ${SRCSBONUS:.c=.o}
 HEADER = libftprintf.h
 
 NAME =  libftprintf.a
+VPATH = printf_functions libft
+LIBSDIR = libft
+LIBS = $(addsufix .a, ${LIBSDIR})   
 
 CC = gcc
 RM = rm -f
@@ -13,29 +15,27 @@ CFLAGS = -Wall -Wextra -Werror
 TESTFLAGS = # -fsanitize=address -g
 
 %.o : %.c	$(HEADER) 
+			${CC} ${CFLAGS} -c $< -o $@ 
 	
-all:		$(NAME)  
-
-test:		${OBJS} ${NAME}
-			@${CC} ${TESTFLAGS} ${CFLAGS} main.c ${OBJS} $(HEADER)
-			@./a.out
+all:		${NAME} ${LIBS}
 
 ${NAME}:	${OBJS} $(HEADER)
-			make -C libft
-			cp libft/libft.a $(NAME)
+#			${CC} ${CFLAGS} ${OBJS} $(HEADER) $(LIBS)
+			cp ${LIBS} $(NAME)
 			ar rcs ${NAME} ${OBJS}
 
-bonus:		${OBJS} ${OBJSBONUS} $(HEADER)
-			ar rcs ${NAME} ${OBJS} ${OBJSBONUS}
-			@touch $@
+${LIBS}:
+			make -C ${LIBSDIR}
 
-clean:
-			${RM} ${OBJS} ${OBJSBONUS} bonus
+libftclean:
 			make -C libft clean
-fclean:			clean
+
+clean:		libftclean
+			${RM} ${OBJS} 
+
+fclean:		clean
 			${RM} ${NAME}
-			make -C libft fclean
 
 re:		fclean all
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re libftclean 

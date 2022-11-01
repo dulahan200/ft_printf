@@ -1,0 +1,6 @@
+# files modified from original libft
+#
+# MODIFIED #ft_putnbr_fd
+# Added supports for bases other than decimal (10) by using the argument "base".Base is a string
+# Examples:
+# "0123456789" = decimal "01" = binary "01234567890abcdef" = hexadecimal etc. 
