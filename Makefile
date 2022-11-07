@@ -1,7 +1,6 @@
 SRCS = ft_printf.c 
 
 OBJS = ${SRCS:.c=.o}
-OBJSBONUS = ${SRCSBONUS:.c=.o}
 HEADER = libftprintf.h
 
 NAME =  libftprintf.a
@@ -11,7 +10,7 @@ LIBS = $(addsufix .a, ${LIBSDIR})
 
 CC = gcc
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra # -Werror
 TESTFLAGS = # -fsanitize=address -g
 
 %.o : %.c	$(HEADER) 
@@ -19,7 +18,7 @@ TESTFLAGS = # -fsanitize=address -g
 	
 all:		${NAME} ${LIBS}
 
-${NAME}:	${OBJS} $(HEADER)
+${NAME}:	${OBJS} $(HEADER) ${LIBS}
 #			${CC} ${CFLAGS} ${OBJS} $(HEADER) $(LIBS)
 			cp ${LIBS} $(NAME)
 			ar rcs ${NAME} ${OBJS}
