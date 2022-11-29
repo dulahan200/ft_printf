@@ -6,23 +6,13 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 17:29:18 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/11/07 17:53:54 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/11/29 18:57:26 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-#include "libft/libft.h"
+#include "ft_printf.h"
 
-
-static void	ft_iniprintflags(t_printflags * flags)
-{
-	flags->mode = 't';
-	flags->flag_hash = 0;
-	flags->flag_space = 0;
-	flags->flag_plus = 0;
-}
-
-static unsigned int	ft_p2adr(void* ptr)
+static unsigned int	ft_ptoadr(void* ptr)
 {
 	if (!ptr)
 		return (-1);
@@ -31,14 +21,16 @@ static unsigned int	ft_p2adr(void* ptr)
 	//	return (ft_putnbr_fd(ptr, 1));
 }
 
-static int ft_printchar(char c, t_printflags flags, va_list ap)
+static int ft_printchar(const char c, va_list ap)
 {
-	if (c == 'c' || c =='%')
-		return (ft_putchar_fd(va_arg(ap, int), 1));
+	if (c == 'c')
+		return (ft_putchar_fd(va_arg(ap, int), 1)); 
+	if (c == '%')
+		return (ft_putchar_fd('%', 1)); 
 	if (c == 's')
 		return (ft_putstr_fd(va_arg(ap, char*), 1));
 	if (c == 'p')
-		return (ft_putuint_fdbase(ft_p2adr(va_arg(ap, void*)), "0123456789abcdef", 1));
+		return (ft_putuint_fdbase(ft_ptoadr(va_arg(ap, void*)), "0123456789abcdef", 1));
 	if (c == 'i'|| c == 'd')
 		return (ft_putnbr_fd(va_arg(ap, int), 1));
 	if (c == 'u')   
@@ -50,46 +42,47 @@ static int ft_printchar(char c, t_printflags flags, va_list ap)
 	return(-2);
 }
 
-static void	ft_print_analysis(char *s, t_printflags flags, va_list ap)
+int	ft_print_analysis(const char *s, va_list ap)
 {
 	int		i;
+	char	mode;
+	int		chars_printed;
 
+	mode = 'r';
 	i = -1;
-	while (s[i++])
+	chars_printed = 0;
+	while (s[++i])
 	{
-		if	(flags.mode == 'r')
-		{
-			if (s[i]== '%')
-				ft_iniprintflags(&flags);	
+		if (mode == 'r')
+			if (s[i] == '%')
+				mode = 't';
 			else
-				write(1, &s[i], 1);
-		}
+			{
+				if (write(1, &s[i], 1) == -1)
+					return (-1);
+				chars_printed++;
+			}
 		else
-	
-		{
-			if (ft_strchr("cspdiuxX", s[i]))
-				ft_printchar(s[i], flags, ap);
-			else if(s[i] == '#')
-				flags.flag_hash = 1;
-			else if(s[i] == ' ')
-				flags.flag_space= 1;
-			else if(s[i] == '+')
-				flags.flag_plus = 1;
-		}
+			if (ft_strchr("cspdiuxX%", s[i]))
+			{
+//				printf("time%d\n", i);
+				if (ft_printchar(s[i], ap) == -1)
+					return(-1);
+//				printf("time%d\n", i);
+				chars_printed++;
+				mode = 'r';
+			}
 	}
+	return (chars_printed);
 }
 
 int	ft_printf(const char *str, ...)
 {
 	va_list			ap;
-	t_printflags	flags;
+	int		chars_printed;
 
-	ft_iniprintflags(&flags);
-	flags.mode = 'r';
 	va_start(ap, str);
-	ft_print_analysis(va_arg(ap, char *), flags, ap);
-
-
+	chars_printed = ft_print_analysis(str, ap);
 	va_end(ap);
-	return (3);
+	return (chars_printed);
 }

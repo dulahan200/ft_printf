@@ -1,12 +1,12 @@
-SRCS = ft_printf.c 
+SRCS = ft_printf.c ft_putuint_fdbase.c ft_putint_fdbase.c
 
 OBJS = ${SRCS:.c=.o}
-HEADER = libftprintf.h
+HEADER = ft_printf.h
 
 NAME =  libftprintf.a
 VPATH = printf_functions libft
 LIBSDIR = libft
-LIBS = $(addsufix .a, ${LIBSDIR})   
+LIBS = $(addsuffix .a, ${LIBSDIR})   
 
 CC = gcc
 RM = rm -f
@@ -20,14 +20,14 @@ all:		${NAME} ${LIBS}
 
 ${NAME}:	${OBJS} $(HEADER) ${LIBS}
 #			${CC} ${CFLAGS} ${OBJS} $(HEADER) $(LIBS)
-			cp ${LIBS} $(NAME)
+			cp ${LIBSDIR}/${LIBS} $(NAME)
 			ar rcs ${NAME} ${OBJS}
 
 ${LIBS}:
 			make -C ${LIBSDIR}
 
 libftclean:
-			make -C libft clean
+#		{LIBSDIR} #esto hay que arreglarlo
 
 clean:		libftclean
 			${RM} ${OBJS} 
@@ -37,4 +37,7 @@ fclean:		clean
 
 re:		fclean all
 
-.PHONY: all clean fclean re libftclean 
+test:
+		gcc main
+
+.PHONY: all clean fclean re libftclean test 

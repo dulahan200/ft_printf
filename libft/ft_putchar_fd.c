@@ -6,7 +6,7 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 16:25:44 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/11/03 19:48:11 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/11/29 19:01:25 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,5 @@
 
 int	ft_putchar_fd(char c, int fd)
 {
-	printf("HOLA\n");
-	return 58;
 	return (write(fd, &c, 1));
 }
