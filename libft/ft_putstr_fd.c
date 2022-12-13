@@ -6,7 +6,7 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:57:44 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/11/29 20:43:06 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/12/07 16:50:16 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -14,7 +14,6 @@
 int	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
-	int chars;
 
 	if (!s)
 	{
@@ -24,7 +23,6 @@ int	ft_putstr_fd(char *s, int fd)
 	}
 
 	i = 0;
-	chars = 0;
 	while (s[i])
 	{
 		if (write (fd, s + i, 1) == -1)

@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putuint_fdbase.c                                :+:      :+:    :+:   */
+/*   ft_putull_fdbase.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/01 18:56:02 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/12/07 18:43:14 by hmestre-         ###   ########.fr       */
+/*   Created: 2022/12/07 18:43:41 by hmestre-          #+#    #+#             */
+/*   Updated: 2022/12/13 18:17:02 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 /*
 ATTENTION!!
@@ -24,12 +25,12 @@ base = 0123456789, 0123456789abcdef, etc.
 
 #include "ft_printf.h"
 
-unsigned int	ft_putuint_fdbase(unsigned int n, char *base, int fd)
+unsigned int	ft_putull_fdbase(t_ull n, char *base, int fd)
 {
 	unsigned int	base_n;
 	int				charsdif;
-	
 	charsdif = 0;
+
 		base_n = ft_strlen(base);
 		if (n < base_n)
 		{
@@ -37,8 +38,8 @@ unsigned int	ft_putuint_fdbase(unsigned int n, char *base, int fd)
 		}
 		else
 		{
-			charsdif = ft_putuint_fdbase(n / base_n, base, fd);
-			charsdif = charsdif + ft_putuint_fdbase(n % base_n, base, fd);
+			charsdif = ft_putull_fdbase(n / base_n, base, fd);
+			charsdif = charsdif + ft_putull_fdbase(n % base_n, base, fd);
 		}
 		if (charsdif < 0)
 			return (-1);

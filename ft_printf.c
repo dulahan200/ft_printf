@@ -6,12 +6,12 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 17:29:18 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/11/29 18:57:26 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/12/13 18:16:24 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
+/*
 static unsigned int	ft_ptoadr(void* ptr)
 {
 	if (!ptr)
@@ -19,25 +19,33 @@ static unsigned int	ft_ptoadr(void* ptr)
 
 		return ((unsigned long long) ptr);
 	//	return (ft_putnbr_fd(ptr, 1));
-}
+}*/
 
 static int ft_printchar(const char c, va_list ap)
 {
+	int	tmp;
+
 	if (c == 'c')
 		return (ft_putchar_fd(va_arg(ap, int), 1)); 
-	if (c == '%')
+	else if (c == '%')
 		return (ft_putchar_fd('%', 1)); 
-	if (c == 's')
+	else if (c == 's')
 		return (ft_putstr_fd(va_arg(ap, char*), 1));
-	if (c == 'p')
-		return (ft_putuint_fdbase(ft_ptoadr(va_arg(ap, void*)), "0123456789abcdef", 1));
-	if (c == 'i'|| c == 'd')
-		return (ft_putnbr_fd(va_arg(ap, int), 1));
-	if (c == 'u')   
-		return (ft_putnbr_fd(va_arg(ap, unsigned int), 1));
-	if (c == 'x') //hexadecimal lowercase
+	else if (c == 'p')
+	{
+		ft_putstr_fd("0x", 1);
+		tmp = ft_putull_fdbase(va_arg(ap, t_ull), "0123456789abcdef", 1);
+		if (tmp > 0)
+			return (tmp + 2);
+		return (-1);
+	}
+	else if (c == 'i'|| c == 'd')
+		return (ft_putint_fdbase(va_arg(ap, int), "0123456789", 1));
+	else if (c == 'u')   
+		return (ft_putuint_fdbase(va_arg(ap, int), "0123456789", 1));
+	else if (c == 'x')
 		return (ft_putuint_fdbase(va_arg(ap, unsigned int), "0123456789abcdef", 1));
-	if (c == 'X') //hexadecimal uppercase
+	else if (c == 'X') 
 		return (ft_putuint_fdbase(va_arg(ap, unsigned int), "0123456789ABCDEF", 1));
 	return(-2);
 }
@@ -47,6 +55,7 @@ int	ft_print_analysis(const char *s, va_list ap)
 	int		i;
 	char	mode;
 	int		chars_printed;
+	int		tmp;
 
 	mode = 'r';
 	i = -1;
@@ -65,11 +74,10 @@ int	ft_print_analysis(const char *s, va_list ap)
 		else
 			if (ft_strchr("cspdiuxX%", s[i]))
 			{
-//				printf("time%d\n", i);
-				if (ft_printchar(s[i], ap) == -1)
-					return(-1);
-//				printf("time%d\n", i);
-				chars_printed++;
+				tmp = ft_printchar(s[i], ap);
+					if (tmp == -1)
+						return(-1);
+				chars_printed = chars_printed + tmp;
 				mode = 'r';
 			}
 	}
