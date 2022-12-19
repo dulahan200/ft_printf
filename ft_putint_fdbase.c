@@ -6,40 +6,72 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:56:21 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/12/13 18:38:07 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/12/19 19:36:10 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //ATTENTION!!
 //BASE = NULL || empty string --> SEGFAULT
-//MIN_INT NOT IMPLEMENTED
-//Return value = num of printed char (-1 if write fails, -2 if writting nothing)
-
+//Return value = num of printed chars
+ 
 #include "libft/libft.h"
+
+int	ft_putint_fdbase(int n, char *base, int fd);
+
+static int ft_putint_min(int n, char *base, int base_n, int fd)
+{
+	int	charsdif;
+	int tmp;
+	
+	if (ft_putchar_fd('-', fd) == -1)
+		return (-1);
+	tmp = ft_putint_fdbase(-1*(n/base_n), base, fd);
+	if (tmp == -1)
+		return (-1);
+	charsdif = 1 + tmp;
+	tmp = ft_putint_fdbase(-1*(n%base_n), base, fd);
+	if (tmp == -1)
+		return (-1);
+	charsdif = charsdif + tmp;
+	return (charsdif);
+}
 
 int	ft_putint_fdbase(int n, char *base, int fd)
 {
 	int	base_n;
 	int	charsdif;
+	int tmp;
 
 	charsdif = 0;
-		base_n = ft_strlen(base);
-		if (n == INT_MIN)
-			charsdif = ft_putstr_fd(INT_MIN);
-		if (n < 0)
-		{
-			if (ft_putchar_fd('-', fd) == -1)
-				return (-1);
-			charsdif = ft_putint_fdbase(-n, base, fd);
-		}
-		else if (n < base_n)
-			charsdif = ft_putchar_fd(base[n], fd);
-		else
-		{
-			charsdif = ft_putint_fdbase(n / base_n, base, fd);
-			charsdif = charsdif + ft_putint_fdbase(n % base_n, base, fd);
-		}
-		if (charsdif < 0)
+	base_n = ft_strlen(base);
+	if (n == INT_MIN)
+		return(ft_putint_min(n, base, base_n, fd));
+	else if (n < 0)
+	{
+		if (ft_putchar_fd('-', fd) == -1)
 			return (-1);
+		tmp = ft_putint_fdbase(-n, base, fd);
+		if (tmp == -1)
+			return (-1);
+		charsdif = 1 + tmp;
+	}
+	else if (n < base_n)
+	{
+		tmp = ft_putchar_fd(base[n], fd);
+		if (tmp == -1)
+			return (-1);
+		charsdif = charsdif + tmp;
+	}
+	else
+	{
+		tmp = ft_putint_fdbase(n / base_n, base, fd);
+		if (tmp == -1)
+			return (-1);
+		charsdif = charsdif + tmp;
+		tmp = ft_putint_fdbase(n % base_n, base, fd);
+		if (tmp == -1)
+			return (-1);
+		charsdif = charsdif + tmp;
+	}
 	return (charsdif);
 }

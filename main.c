@@ -3,7 +3,7 @@
 int	main(void)
 {
 char *s = "";
-int n = -5425;
+int n = INT_MIN;
 char c = 'w';
 
 int	r;

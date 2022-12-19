@@ -23,6 +23,11 @@ ${NAME}:	${OBJS} $(HEADER) ${LIBS}
 			cp ${LIBSDIR}/${LIBS} $(NAME)
 			ar rcs ${NAME} ${OBJS}
 
+testmain: all
+	@	gcc main.c ${NAME}
+	@	./a.out
+
+
 ${LIBS}:
 			make -C ${LIBSDIR}
 
@@ -40,4 +45,4 @@ re:		fclean all
 test:
 		gcc main
 
-.PHONY: all clean fclean re libftclean test 
+.PHONY: all clean fclean re libftclean testmain 

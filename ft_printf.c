@@ -6,7 +6,7 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 17:29:18 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/12/13 18:16:24 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/12/19 19:07:45 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int ft_printchar(const char c, va_list ap)
 		return (ft_putstr_fd(va_arg(ap, char*), 1));
 	else if (c == 'p')
 	{
-		ft_putstr_fd("0x", 1);
+		if (ft_putstr_fd("0x", 1) == -1)
+			return (-1);
 		tmp = ft_putull_fdbase(va_arg(ap, t_ull), "0123456789abcdef", 1);
 		if (tmp > 0)
 			return (tmp + 2);

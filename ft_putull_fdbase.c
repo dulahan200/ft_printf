@@ -6,7 +6,7 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 18:43:41 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/12/13 18:17:02 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/12/19 19:49:10 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,24 @@ unsigned int	ft_putull_fdbase(t_ull n, char *base, int fd)
 {
 	unsigned int	base_n;
 	int				charsdif;
+	int				tmp;
+
 	charsdif = 0;
 
-		base_n = ft_strlen(base);
-		if (n < base_n)
-		{
-			charsdif = (ft_putchar_fd(base[n], fd));
-		}
-		else
-		{
-			charsdif = ft_putull_fdbase(n / base_n, base, fd);
-			charsdif = charsdif + ft_putull_fdbase(n % base_n, base, fd);
-		}
-		if (charsdif < 0)
+	base_n = ft_strlen(base);
+	if (n < base_n)
+	{
+		charsdif = (ft_putchar_fd(base[n], fd));
+	}
+	else
+	{
+		charsdif = ft_putull_fdbase(n / base_n, base, fd);
+		if (charsdif == -1)
 			return (-1);
+		tmp = ft_putull_fdbase(n % base_n, base, fd);
+		if (tmp == -1)
+			return (-1);
+		charsdif = charsdif + tmp;
+	}
 	return (charsdif);
 }
