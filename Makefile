@@ -10,20 +10,29 @@ LIBS = $(addsuffix .a, ${LIBSDIR})
 
 CC = gcc
 RM = rm -f
-CFLAGS = -Wall -Wextra # -Werror
+CFLAGS = -Wall -Wextra -Werror
 TESTFLAGS = # -fsanitize=address -g
 
-%.o : %.c	$(HEADER) 
+DEPDIR := .deps
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.
+
+$(DEPDIR): ; @mkdir -p $@
+DEPFILES := $(SRCS:%.c=$(DEPDIR)/%.d)
+$(DEPFILES):
+
+
+
+%.o : %.c	$(HEADER) ${LIBSDIR}${LIBS}
 			${CC} ${CFLAGS} -c $< -o $@ 
 	
-all:		${NAME} ${LIBS}
+all:		${NAME} ${LIBS}${LIBSDIR}/${LIBS}
 
 ${NAME}:	${OBJS} $(HEADER) ${LIBS}
 #			${CC} ${CFLAGS} ${OBJS} $(HEADER) $(LIBS)
 			cp ${LIBSDIR}/${LIBS} $(NAME)
 			ar rcs ${NAME} ${OBJS}
 
-testmain: all
+test: all
 	@	gcc main.c ${NAME}
 	@	./a.out
 
@@ -42,7 +51,6 @@ fclean:		clean
 
 re:		fclean all
 
-test:
-		gcc main
+include $(wildcard $(DEPFILES))
 
-.PHONY: all clean fclean re libftclean testmain 
+.PHONY: all clean fclean re libftclean test 
