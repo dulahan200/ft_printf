@@ -6,7 +6,7 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:56:02 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/12/19 19:53:44 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/12/28 18:59:59 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ unsigned int	ft_putuint_fdbase(unsigned int n, char *base, int fd)
 	int				tmp;
 
 	charsdif = 0;
-
 	base_n = ft_strlen(base);
 	if (n < base_n)
 	{

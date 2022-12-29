@@ -6,30 +6,29 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:56:21 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/12/19 19:36:10 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/12/28 19:07:38 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //ATTENTION!!
 //BASE = NULL || empty string --> SEGFAULT
 //Return value = num of printed chars
- 
 #include "libft/libft.h"
 
 int	ft_putint_fdbase(int n, char *base, int fd);
 
-static int ft_putint_min(int n, char *base, int base_n, int fd)
+static int	ft_putint_min(int n, char *base, int base_n, int fd)
 {
 	int	charsdif;
-	int tmp;
-	
+	int	tmp;
+
 	if (ft_putchar_fd('-', fd) == -1)
 		return (-1);
-	tmp = ft_putint_fdbase(-1*(n/base_n), base, fd);
+	tmp = ft_putint_fdbase(-1 * (n / base_n), base, fd);
 	if (tmp == -1)
 		return (-1);
 	charsdif = 1 + tmp;
-	tmp = ft_putint_fdbase(-1*(n%base_n), base, fd);
+	tmp = ft_putint_fdbase(-1 * (n % base_n), base, fd);
 	if (tmp == -1)
 		return (-1);
 	charsdif = charsdif + tmp;
@@ -40,12 +39,12 @@ int	ft_putint_fdbase(int n, char *base, int fd)
 {
 	int	base_n;
 	int	charsdif;
-	int tmp;
+	int	tmp;
 
 	charsdif = 0;
 	base_n = ft_strlen(base);
 	if (n == INT_MIN)
-		return(ft_putint_min(n, base, base_n, fd));
+		return (ft_putint_min(n, base, base_n, fd));
 	else if (n < 0)
 	{
 		if (ft_putchar_fd('-', fd) == -1)

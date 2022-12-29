@@ -6,13 +6,11 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 18:43:41 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/12/19 19:49:10 by hmestre-         ###   ########.fr       */
+/*   Updated: 2022/12/28 18:59:42 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 /*
-ATTENTION!!
 BASE = NULL || empty string --> SEGFAULT
 Return value = num of printed char (-1 if failing to write to fd)
 
@@ -32,7 +30,6 @@ unsigned int	ft_putull_fdbase(t_ull n, char *base, int fd)
 	int				tmp;
 
 	charsdif = 0;
-
 	base_n = ft_strlen(base);
 	if (n < base_n)
 	{
