@@ -1,7 +1,7 @@
 SRCS = ft_printf.c ft_putuint_fdbase.c ft_putint_fdbase.c ft_putull_fdbase.c
 
 OBJS = ${SRCS:.c=.o}
-OBJDIR = ${obj}
+OBJDIR = obj
 HEADER = ft_printf.h
 
 NAME =  libftprintf.a
@@ -14,14 +14,15 @@ RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
 TESTFLAGS = # -fsanitize=address -g
 
-DEPDIR := ${OBJDIR}.deps
+DEPDIR := ${OBJDIR}/.deps
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 DEPFILES := $(SRCS:%.c=$(DEPDIR)/%.d)
 
 
 
-${OBJDIR}%.o : %.c	$(HEADER) ${LIBSDIR} ${LIBS} $(DEPDIR)/%.d | $(DEPDIR) ${OBJDIR}
-			${CC} ${CFLAGS} ${DEPFLAGS} -c $< -o ${OBJDIR}/$*.o 
+%.o : %.c	$(HEADER) ${LIBSDIR} ${LIBS} $(DEPDIR)/%.d | $(DEPDIR) ${OBJDIR}
+
+			${CC} ${CFLAGS} ${DEPFLAGS} -c $< -o $(OBJDIR)/$*.o 
 
 	
 all:		${NAME} ${LIBS}${LIBSDIR}/${LIBS}
@@ -30,9 +31,12 @@ all:		${NAME} ${LIBS}${LIBSDIR}/${LIBS}
 $(DEPFILES):
 
 ${NAME}:	${OBJS} $(HEADER) ${LIBS}
-#			${CC} ${CFLAGS} ${OBJS} $(HEADER) $(LIBS)
-			cp ${LIBSDIR}/${LIBS} $(NAME)
-			ar rcs ${NAME} ${OBJS}
+#			${CC} ${CFLAGS} $(addprefix ${OBJDIR}/, ${OBJS}) $(HEADER) $(LIBS)
+			ar rcs ${NAME} $(addprefix ${OBJDIR}/, ${OBJS})
+			ar rcs ${NAME} ${LIBSDIR}/${LIBS} ${NAME}
+			ranlib ${NAME} 
+
+icanviar el nom el lib ft, moure/ho a la actual, i fer arrcs name addprefix...etc.
 
 $(OBJDIR): ; @mkdir -p $@
 
