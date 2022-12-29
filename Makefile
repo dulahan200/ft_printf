@@ -36,7 +36,7 @@ ${NAME}:	${OBJS} $(HEADER) ${LIBS}
 			ar rcs ${NAME} ${LIBSDIR}/${LIBS} ${NAME}
 			ranlib ${NAME} 
 
-icanviar el nom el lib ft, moure/ho a la actual, i fer arrcs name addprefix...etc.
+##canviar el nom el lib ft, moure/ho a la actual, i fer arrcs name addprefix...etc.
 
 $(OBJDIR): ; @mkdir -p $@
 
