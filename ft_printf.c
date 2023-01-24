@@ -6,7 +6,7 @@
 /*   By: hmestre- <hmestre-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 17:29:18 by hmestre-          #+#    #+#             */
-/*   Updated: 2022/12/28 18:53:13 by hmestre-         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:58:44 by hmestre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ int	ft_print_analysis(const char *s, va_list ap)
 				mode = 'r';
 			}
 		else
+		{
 			write(1, "wrong flags", 11);
+			return(-1);
+		}
 	}
 	return (chars_printed);
 }

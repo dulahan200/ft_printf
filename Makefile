@@ -21,20 +21,20 @@ DEPFILES := $(SRCS:%.c=$(DEPDIR)/%.d)
 
 
 %.o : %.c	$(HEADER) ${LIBSDIR} ${LIBS} $(DEPDIR)/%.d | $(DEPDIR) ${OBJDIR}
-
 			${CC} ${CFLAGS} ${DEPFLAGS} -c $< -o $(OBJDIR)/$*.o 
 
-	
-all:		${NAME} ${LIBS}${LIBSDIR}/${LIBS}
-	
+all:		${NAME} ##${LIBS} 
 			
 $(DEPFILES):
 
-${NAME}:	${OBJS} $(HEADER) ${LIBS}
-#			${CC} ${CFLAGS} $(addprefix ${OBJDIR}/, ${OBJS}) $(HEADER) $(LIBS)
+${NAME}:	${OBJS} $(HEADER)
+			cp ${LIBSDIR}/${LIBS} ${NAME}
 			ar rcs ${NAME} $(addprefix ${OBJDIR}/, ${OBJS})
-			ar rcs ${NAME} ${LIBSDIR}/${LIBS} ${NAME}
-			ranlib ${NAME} 
+
+#########	OLD method
+#			ar rcs ${NAME} $(addprefix ${OBJDIR}/, ${OBJS})
+#			ar rcs ${NAME} ${LIBSDIR}/${LIBS} ${NAME}
+#			ranlib ${NAME} 
 
 ##canviar el nom el lib ft, moure/ho a la actual, i fer arrcs name addprefix...etc.
 
@@ -43,7 +43,7 @@ $(OBJDIR): ; @mkdir -p $@
 $(DEPDIR): ; @mkdir -p $@
 
 test: all
-	@	gcc main.c ${NAME}
+			${CC} ${CFLAGS} $(addprefix ${OBJDIR}/, ${OBJS}) $(HEADER) $(LIBS)
 	@	./a.out
 
 
@@ -54,13 +54,20 @@ libftclean:
 #		{LIBSDIR} #esto hay que arreglarlo
 
 clean:		libftclean
-			${RM} ${OBJS} 
+			${RM} -r ${OBJDIR} 
+# removes only file and not folder			${RM} $(addprefix ${OBJDIR}/, ${OBJS})${OBJS} 
+			make clean -C ${LIBSDIR}
 
 fclean:		clean
 			${RM} ${NAME}
+			make fclean -C ${LIBSDIR}
 
 re:		fclean all
 
 include $(wildcard $(DEPFILES))
 
 .PHONY: all clean fclean re libftclean test 
+
+#################
+# Dependency implementation based on
+# https://make.mad-scientist.net/papers/advanced-auto-dependency-generation/
